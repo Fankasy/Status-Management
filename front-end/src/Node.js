@@ -1,9 +1,12 @@
 class Node{
      name;
-     connect = [];
+     connect;
+     pathParent;
      constructor(){
          this.connect = [];
+         this.pathParent = null;
      }
+     
 }
 
 export default Node;

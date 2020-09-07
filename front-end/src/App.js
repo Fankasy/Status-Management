@@ -20,7 +20,7 @@ class App extends React.Component {
       <BrowserRouter>
       
         <Route exact = {true} path ="/" render = {()=>(<Home statusList={this.state.statusList}/>) }/>
-        <Route path = "/create" component = {Create}/>
+        <Route path = "/create" render = {()=>(<Create statusList={this.state.statusList}/>) }/>
         <Route path = "/update" component = {Update}/>
       </BrowserRouter>
     )
