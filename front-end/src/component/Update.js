@@ -3,7 +3,9 @@ import {Link,withRouter} from 'react-router-dom';
 class Update extends React.Component {
     constructor(props){
         super(props);
-        
+        this.state = {
+            selectStatus : []
+        }
 
     }
     handleDelete = ()=>{
@@ -26,20 +28,41 @@ class Update extends React.Component {
         
         this.props.history.push("/");
     }
-    deleteNode= (node)=>{
-        const statusList = this.props.location.state.statusList;
-        
+    handleSelect = (e)=>{
+        let newVal = this.props.location.state.statusList[e.target.value];
+        let selectGroup = this.state.selectStatus;
+        selectGroup.indexOf(newVal) === -1
+            ? selectGroup.push(newVal) :
+            selectGroup.length === 1 ? (selectGroup = [])
+                : selectGroup.splice(selectGroup.indexOf(newVal), 1)
+        this.setState({
+            selectStatus: selectGroup
+        })
+
     }
+    handleUpdate =()=>{
+        const currentStatus = this.props.location.state.updateStatus;
+        const targetStatus = this.state.selectStatus;
+        currentStatus.connect = [];
+        currentStatus.connect = targetStatus;
+        this.props.history.push("/");
+
+    }
+
     render() {
         return (
             <div>
                 <Link to="/">Main Page </Link>
                 <div>Status Name: {this.props.location.state.updateStatus.name}<span><button onClick={this.handleDelete}>delete</button></span></div> 
                 <div>Could be transferred to:</div>
-                <ul>
-                    <li>Test</li>
-                </ul>
-                <button>Update status</button>
+                <select onChange={this.handleSelect} multiple={true}>
+                    {this.props.location.state.statusList.map((status,index)=>{
+                        return (
+                        <option key={index} value={index}>{status.name}</option>
+                        )
+                    })}
+                </select>
+                <button onClick={this.handleUpdate}>Update status</button>
             </div>
         )
     }
